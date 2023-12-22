@@ -32,7 +32,7 @@ struct DashboardView: View {
                         .padding()
                         .padding(.bottom, 64)
                     }
-                    
+                                        
                     TabView {
                         ForEach(viewModel.dailyForecastList, id: \.dayTitle) { dayForecast in
                             DashboardDailyItemView(viewModel: dayForecast)
@@ -47,8 +47,13 @@ struct DashboardView: View {
                     .frame(height: 200)
                 }
             }
+            .refreshable {
+                await viewModel.refreshData()
+            }
             .onAppear {
-                viewModel.loadForecast()
+                Task {
+                    await viewModel.refreshData()
+                }
             }
         }
         .overlay {
