@@ -7,23 +7,31 @@
 
 import Foundation
 
-struct ApiConstants {
-    static let baseUrl: String = "https://api.openweathermap.org/data/2.5/"
+protocol ApiConstantsProtocol {
+    var baseUrl: String { get }
+    var weatherAPIKey: String? { get }
+    func loadAPIKeys() async throws
+}
+
+class ApiConstants: ApiConstantsProtocol {
+        
+    static let shared = ApiConstants()
     
-    static func loadAPIKeys() async throws  {
+    private var storage = [String: String]()
+    
+    var baseUrl: String { "https://api.openweathermap.org/data/2.5/" }
+    var weatherAPIKey: String? { storage["OpenWeatherAPI"] }
+    
+    private init() {}
+
+    func loadAPIKeys() async throws  {
         let request = NSBundleResourceRequest(tags: ["APIKeys"])
         try await request.beginAccessingResources()
         
         let url = Bundle.main.url(forResource: "APIKeys", withExtension: "json")!
         let data = try Data(contentsOf: url)
         // TODO: Store in keychain and skip NSBundleResourceRequest on next launches
-        APIKeys.storage = try JSONDecoder().decode([String: String].self, from: data)
-        
+        storage = try JSONDecoder().decode([String: String].self, from: data)
         request.endAccessingResources()
-    }
-    
-    enum APIKeys {
-        static fileprivate(set) var storage = [String: String]()
-        static var weatherAPIKey: String { storage["OpenWeatherAPI"] ?? "" }
     }
 }

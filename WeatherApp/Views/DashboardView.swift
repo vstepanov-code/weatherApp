@@ -8,17 +8,50 @@
 import SwiftUI
 
 struct DashboardView: View {
+    @StateObject var viewModel = DashboardViewModel()
+    
     var body: some View {
-        VStack {
-            Image(systemName: "globe")
-                .imageScale(.large)
-                .foregroundStyle(.tint)
-            Text("Hello, world!")
+        NavigationView {
+            ScrollView {
+                VStack {
+                    if let currentTemperatureTitle = viewModel.currentTemperatureTitle,
+                       let currentCityTitle = viewModel.currentCityTitle {
+                        Group {
+                            Text(currentCityTitle)
+                                .headerTextStyle()
+                            Text(currentTemperatureTitle)
+                                .titleTextStyle()
+                        }
+                        .frame(alignment: .trailing)
+                        .frame(height: 200)
+                    }
+                    
+                    TabView {
+                        ForEach(viewModel.dailyForecastList, id: \.dayTitle) { dayForecast in
+                            DashboardDailyItemView(viewModel: dayForecast)
+                                .background(Color.white)
+                                .cardStyle()
+                                .padding(.horizontal)
+                        }
+                    }
+                    .tabViewStyle(PageTabViewStyle(indexDisplayMode: .always))
+                    .indexViewStyle(PageIndexViewStyle(backgroundDisplayMode: .always))
+                    .frame(height: 200)
+                }
+            }
+            .onAppear {
+                viewModel.loadForecast()
+            }
         }
-        .padding()
+        .background(.yellow)
+        .overlay {
+            if viewModel.isLoading {
+                ProgressView()
+            }
+        }
     }
 }
 
 #Preview {
-    DashboardView()
+    DashboardView(viewModel: DashboardViewModel())
 }

@@ -10,32 +10,32 @@ import SwiftUI
 struct HeaderTextStyle: ViewModifier {
     func body(content: Content) -> some View {
         content
-            .font(.system(size: 24))
-            .foregroundColor(.pink)
+            .font(.custom("Helvetica Neue Bold", size: 44))
+            .foregroundColor(.accentColor)
     }
 }
 
 struct TitleTextStyle: ViewModifier {
     func body(content: Content) -> some View {
         content
-            .font(.system(size: 20))
-            .foregroundColor(.pink)
+            .font(.custom("Helvetica Neue Bold", size: 32))
+            .foregroundColor(.accentColor)
     }
 }
 
 struct SubtitleTextStyle: ViewModifier {
     func body(content: Content) -> some View {
         content
-            .font(.system(size: 16))
-            .foregroundColor(.pink)
+            .font(.custom("Helvetica Neue Bold", size: 16))
+            .foregroundColor(.accentColor)
     }
 }
 
 struct PlainTextStyle: ViewModifier {
     func body(content: Content) -> some View {
         content
-            .font(.system(size: 12))
-            .foregroundColor(.pink)
+            .font(.custom("Helvetica Neue Bold", size: 12))
+            .foregroundColor(.accentColor)
     }
 }
 

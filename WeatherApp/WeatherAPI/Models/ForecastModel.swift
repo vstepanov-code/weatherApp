@@ -7,22 +7,22 @@
 
 import Foundation
 
-struct Forecast: Codable {
-    let list: [ForecastItem]?
-    let city: City?
+struct Forecast: Decodable {
+    let list: [ForecastItem]
+    let city: City
 }
 
-struct City: Codable {
+struct City: Decodable {
     let id: Int
-    let name: String?
-    let country: String?
+    let name: String
+    let country: String
 }
 
-struct ForecastItem: Codable {
-    let dt: Int?
-    let main: CurrentState?
-    let weather: [WeatherItem]?
-    let dtTxt: String?
+struct ForecastItem: Decodable {
+    let dt: Int
+    let main: Overview
+    let weather: [WeatherItem]
+    let dtTxt: String
 
     enum CodingKeys: String, CodingKey {
         case dt, main, weather
@@ -30,10 +30,10 @@ struct ForecastItem: Codable {
     }
 }
 
-struct CurrentState: Codable {
-    let temp, feelsLike, tempMin, tempMax: Double?
-    let pressure, seaLevel, grndLevel, humidity: Int?
-    let tempKf: Double?
+struct Overview: Decodable {
+    let temp, feelsLike, tempMin, tempMax: Double
+    let pressure, seaLevel, grndLevel, humidity: Int
+    let tempKf: Double
 
     enum CodingKeys: String, CodingKey {
         case temp
@@ -48,7 +48,7 @@ struct CurrentState: Codable {
     }
 }
 
-struct WeatherItem: Codable {
+struct WeatherItem: Decodable {
     let id: Int
     let main: String?
     let description: String?
