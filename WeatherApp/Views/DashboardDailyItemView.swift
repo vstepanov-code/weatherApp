@@ -9,51 +9,49 @@ import SwiftUI
 
 struct DashboardDailyItemView: View {
     
-    @State var viewModel: ForecastDayItem
+    var viewModel: ForecastDayItem
     
     var body: some View {
-        HStack {
-            Text(viewModel.dayTitle)
-                .subtitleTextStyle()
-                .frame(width: 100, alignment: .leading)
-                .padding(.trailing, 16)
-            
-            HStack(spacing: 4) {
-                Text(viewModel.humidityTitle)
-                    .plainTextStyle()
-                
-                Image(systemName: "drop.degreesign.fill")
-                    .resizable()
-                    .renderingMode(.template)
-                    .scaledToFit()
-                    .foregroundStyle(.accent)
-                    .frame(width: 16, height: 16)
-            }
+        VStack(alignment: .leading) {
             
             HStack {
+                Text(viewModel.dayTitle)
+                    .titleTextStyle()
+                
+                Spacer()
                 
                 AsyncImage(url: viewModel.iconURL) { image in
                     image
                         .resizable()
                         .scaledToFit()
-                        .frame(width: 44, height: 44)
+                        .frame(width: 50, height: 50)
                 } placeholder: {
                     ProgressView() // Show a loader while the image is loading
                 }
             }
-            Spacer()
-            VStack(alignment: .trailing) {
-                Spacer()
-                Text(viewModel.maxTempTitle)
-                    .plainTextStyle()
-                Text(viewModel.minTempTitle)
-                    .plainTextStyle()
-                Spacer()
-            }
             
+            HStack(alignment: .center) {
+                Text(viewModel.maxTempTitle)
+                    .subtitleTextStyle()
+                Text(viewModel.minTempTitle)
+                    .subtitleTextStyle()
+                
+                Spacer()
+                HStack(spacing: 4) {
+                    Text(viewModel.humidityTitle)
+                        .subtitleTextStyle()
+                    
+                    Image(systemName: "drop.degreesign.fill")
+                        .resizable()
+                        .renderingMode(.template)
+                        .scaledToFit()
+                        .foregroundStyle(.accent)
+                        .frame(width: 24, height: 24)
+                }
+            }
         }
+        .padding()
         .background(.clear)
-        .padding(.horizontal, 16)
     }
 }
 

@@ -72,9 +72,8 @@ class DashboardViewModel: ObservableObject {
             return
         }
         
-        self.currentTemperatureTitle = "\(currentData.main.temp)°C"
+        self.currentTemperatureTitle = "\(Int(currentData.main.temp))°C"
         self.currentCityTitle = forecast.city.name
-        
         
         let groupedByDay = Dictionary(grouping: forecast.list) { (element) -> Date in
             let date = Date(timeIntervalSince1970: TimeInterval(element.dt ))
@@ -83,16 +82,14 @@ class DashboardViewModel: ObservableObject {
         }
         
         let sortedKeys = groupedByDay.keys.sorted()
-        self.dailyForecastList = sortedKeys.compactMap { key -> ForecastDayItem? in
-            guard let values = groupedByDay[key],
+        self.dailyForecastList = sortedKeys.compactMap { date -> ForecastDayItem? in
+            guard let values = groupedByDay[date],
                   let maxTempForecast = values.max(by: { $0.main.tempMax < $1.main.tempMax }),
                   let minTempForecast = values.min(by: { $0.main.tempMin < $1.main.tempMin }) else {
                 return nil
             }
             
-            let dateFormatter = DateFormatter()
-            dateFormatter.dateFormat = "EE, MMM d"
-            let dayTitle = dateFormatter.string(from: key)
+            let dayTitle = date.formatted(.dateTime.day().month(.abbreviated).weekday(.abbreviated))
             
             return ForecastDayItem(dayTitle: dayTitle,
                                    maxTemp: maxTempForecast.main.tempMax,

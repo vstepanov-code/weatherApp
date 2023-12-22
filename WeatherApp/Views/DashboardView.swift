@@ -16,20 +16,28 @@ struct DashboardView: View {
                 VStack {
                     if let currentTemperatureTitle = viewModel.currentTemperatureTitle,
                        let currentCityTitle = viewModel.currentCityTitle {
-                        Group {
-                            Text(currentCityTitle)
-                                .headerTextStyle()
-                            Text(currentTemperatureTitle)
+                        VStack(alignment: .trailing) {
+                            Text(Date.now.formatted(.dateTime.day().month(.abbreviated).weekday(.abbreviated)))
                                 .titleTextStyle()
+                            Text("NOW")
+                                .headerTextStyle3()
+                            Text(currentTemperatureTitle)
+                                .headerTextStyle1()
+                            Text(currentCityTitle.uppercased())
+                                .headerTextStyle2()
+                            Spacer()
                         }
-                        .frame(alignment: .trailing)
-                        .frame(height: 200)
+                        .frame(maxWidth: .infinity, alignment: .trailing)
+                        .frame(height: 250)
+                        .padding()
+                        .padding(.bottom, 64)
                     }
                     
                     TabView {
                         ForEach(viewModel.dailyForecastList, id: \.dayTitle) { dayForecast in
                             DashboardDailyItemView(viewModel: dayForecast)
-                                .background(Color.white)
+                                .frame(height: 100)
+                                .background(.white)
                                 .cardStyle()
                                 .padding(.horizontal)
                         }
@@ -43,7 +51,6 @@ struct DashboardView: View {
                 viewModel.loadForecast()
             }
         }
-        .background(.yellow)
         .overlay {
             if viewModel.isLoading {
                 ProgressView()

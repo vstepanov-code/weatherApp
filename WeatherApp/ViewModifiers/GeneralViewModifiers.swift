@@ -11,7 +11,7 @@ struct CardStyle: ViewModifier {
     func body(content: Content) -> some View {
         content
             .clipShape(RoundedRectangle(cornerRadius: 12))
-            .shadow(radius: 2)
+            .shadow(color: .accentColor, radius: 2)
             .padding(8)
     }
 }
