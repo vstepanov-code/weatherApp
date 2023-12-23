@@ -1,13 +1,13 @@
 //
-//  ForecastDayItem.swift
+//  DetailsForecastItemViewModel.swift
 //  WeatherApp
 //
-//  Created by Slava Stepanov on 22/12/2023.
+//  Created by Slava Stepanov on 23/12/2023.
 //
 
 import Foundation
 
-struct ForecastDayItem {
+struct DetailsForecastItemViewModel {
     let date: Date
     let maxTemp: Double
     let minTemp: Double
@@ -15,8 +15,8 @@ struct ForecastDayItem {
     let description: String?
     let iconName: String?
     
-    var dayTitle: String {
-        date.formatted(.dateTime.day().month(.abbreviated).weekday(.abbreviated))
+    var timeTitle: String {
+        date.formatted(.dateTime.hour())
     }
     
     var maxTempTitle: String {
@@ -30,7 +30,7 @@ struct ForecastDayItem {
     var humidityTitle: String {
         "\(humidity)%"
     }
-    
+
     var iconURL: URL? {
         if let iconName {
             URL(string: "https://openweathermap.org/img/wn/\(iconName)@2x.png")

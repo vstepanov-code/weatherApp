@@ -26,7 +26,8 @@ struct DashboardDailyItemView: View {
                         .scaledToFit()
                         .frame(width: 50, height: 50)
                 } placeholder: {
-                    ProgressView() // Show a loader while the image is loading
+                    Image(systemName: "nosign")
+                        .foregroundStyle(.accent)
                 }
             }
             
@@ -56,5 +57,5 @@ struct DashboardDailyItemView: View {
 }
 
 #Preview {
-    DashboardDailyItemView(viewModel: ForecastDayItem(dayTitle: "title", maxTemp: 1, minTemp: 0, humidity: 2, description: "sunny", iconName: "10d"))
+    DashboardDailyItemView(viewModel: ForecastDayItem(date: Date(), maxTemp: 1, minTemp: 0, humidity: 2, description: "sunny", iconName: "10d"))
 }

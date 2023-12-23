@@ -10,15 +10,32 @@ import Foundation
 @MainActor
 class DetailsViewModel: ObservableObject {
     
-    @Published var isLoading: Bool = false
-    @Published var currentTemperatureTitle: String?
-    @Published var currentCityTitle: String?
-    @Published var dailyForecastList: [ForecastDayItem] = []
+    @Published var detailedForecastList: [Date:[DetailsForecastItemViewModel]] = [:]
     
-    private let weatherService: WeatherNetworkingProtocol
-    
-    init(weatherService: WeatherNetworkingProtocol = WeatherNetworkingService()) {
-        self.weatherService = weatherService
+    init(forecast: Forecast) {
+        updateDetailedForecast(for: forecast)
     }
     
+    private func updateDetailedForecast(for forecast: Forecast) {
+        let groupedByDay = Dictionary(grouping: forecast.list) {
+            let date = Date(timeIntervalSince1970: TimeInterval($0.dt))
+            let startOfDay = Calendar.current.startOfDay(for: date)
+            return startOfDay
+        }
+        
+        detailedForecastList = groupedByDay.mapValues { items in
+            processDailyForecast(for: items)
+        }
+    }
+    
+    private func processDailyForecast(for items: [ForecastItem]) -> [DetailsForecastItemViewModel] {
+        return items.map { item in
+            DetailsForecastItemViewModel(date: Date(timeIntervalSince1970: TimeInterval(item.dt)),
+                                         maxTemp: item.main.tempMax,
+                                         minTemp: item.main.tempMin,
+                                         humidity: item.main.humidity,
+                                         description: item.weather.first?.main,
+                                         iconName: item.weather.first?.icon)
+        }
+    }
 }

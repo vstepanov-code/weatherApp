@@ -13,38 +13,10 @@ struct DashboardView: View {
     var body: some View {
         NavigationView {
             ScrollView {
-                VStack {
-                    if let currentTemperatureTitle = viewModel.currentTemperatureTitle,
-                       let currentCityTitle = viewModel.currentCityTitle {
-                        VStack(alignment: .trailing) {
-                            Text(Date.now.formatted(.dateTime.day().month(.abbreviated).weekday(.abbreviated)))
-                                .titleTextStyle()
-                            Text("NOW")
-                                .headerTextStyle3()
-                            Text(currentTemperatureTitle)
-                                .headerTextStyle1()
-                            Text(currentCityTitle.uppercased())
-                                .headerTextStyle2()
-                            Spacer()
-                        }
-                        .frame(maxWidth: .infinity, alignment: .trailing)
-                        .frame(height: 250)
-                        .padding()
-                        .padding(.bottom, 64)
-                    }
-                                        
-                    TabView {
-                        ForEach(viewModel.dailyForecastList, id: \.dayTitle) { dayForecast in
-                            DashboardDailyItemView(viewModel: dayForecast)
-                                .frame(height: 100)
-                                .background(.white)
-                                .cardStyle()
-                                .padding(.horizontal)
-                        }
-                    }
-                    .tabViewStyle(PageTabViewStyle(indexDisplayMode: .always))
-                    .indexViewStyle(PageIndexViewStyle(backgroundDisplayMode: .always))
-                    .frame(height: 200)
+                VStack(spacing: 4) {
+                    currentWeatherView
+                    detailsLink
+                    dailyForecastTabView
                 }
             }
             .refreshable {
@@ -60,7 +32,60 @@ struct DashboardView: View {
             if viewModel.isLoading {
                 ProgressView()
             }
+        }.mainNavigationBarStyle()
+    }
+    
+    @ViewBuilder
+    private var currentWeatherView: some View {
+        if let currentTemperatureTitle = viewModel.currentTemperatureTitle,
+           let currentCityTitle = viewModel.currentCityTitle {
+            VStack(alignment: .trailing) {
+                Text(Date.now.formatted(.dateTime.day().month(.abbreviated).weekday(.abbreviated)))
+                    .titleTextStyle()
+                Text("NOW")
+                    .headerTextStyle3()
+                Text(currentTemperatureTitle)
+                    .headerTextStyle1()
+                Text(currentCityTitle.uppercased())
+                    .headerTextStyle2()
+                Spacer()
+            }
+            .frame(maxWidth: .infinity, alignment: .trailing)
+            .frame(height: 250)
+            .padding()
         }
+    }
+    
+    @ViewBuilder
+    private var detailsLink: some View {
+        if let forecast = viewModel.forecast {
+            HStack {
+                Spacer()
+                NavigationLink(destination: DetailsView(viewModel: DetailsViewModel(forecast: forecast))
+                    .navigationBarTitle("Detailed Forecast", displayMode: .large)) {
+                        Text("DETAILS")
+                            .padding(.horizontal)
+                            .frame(height: 36)
+                            .primaryButtonStyle()
+                    }
+            }.padding(.horizontal)
+        }
+    }
+    
+    @ViewBuilder
+    private var dailyForecastTabView: some View {
+        TabView {
+            ForEach(viewModel.dailyForecastList, id: \.dayTitle) { dayForecast in
+                DashboardDailyItemView(viewModel: dayForecast)
+                    .frame(height: 100)
+                    .background(Color.white)
+                    .cardStyle()
+                    .padding(.horizontal)
+            }
+        }
+        .tabViewStyle(PageTabViewStyle(indexDisplayMode: .always))
+        .indexViewStyle(PageIndexViewStyle(backgroundDisplayMode: .always))
+        .frame(height: 200)
     }
 }
 

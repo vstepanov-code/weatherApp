@@ -15,10 +15,11 @@ class DashboardViewModel: ObservableObject {
     @Published var currentCityTitle: String?
     @Published var dailyForecastList: [ForecastDayItem] = []
     
-    private let weatherService: WeatherNetworkingProtocol
+    var forecast: Forecast?
+    private let weatherProvider: WeatherProviderProtocol
     
-    init(weatherService: WeatherNetworkingProtocol = WeatherNetworkingService()) {
-        self.weatherService = weatherService
+    init(weatherProvider: WeatherProviderProtocol = WeatherProviderService()) {
+        self.weatherProvider = weatherProvider
     }
     
     @MainActor
@@ -27,7 +28,7 @@ class DashboardViewModel: ObservableObject {
         
         defer { isLoading = false }
         do {
-            let forecast = try await weatherService.getForecast(for: "Paris")
+            let forecast = try await weatherProvider.getForecast(for: "Paris")
             processForecastData(forecast)
         } catch {
             // TODO: Add error handling and communicate with the UI
@@ -35,6 +36,7 @@ class DashboardViewModel: ObservableObject {
     }
     
     private func processForecastData(_ forecast: Forecast) {
+        self.forecast = forecast
         updateCurrentWeather(from: forecast)
         updateDailyForecast(from: forecast)
     }
@@ -67,9 +69,8 @@ class DashboardViewModel: ObservableObject {
             return nil
         }
         
-        let dayTitle = date.formatted(.dateTime.day().month(.abbreviated).weekday(.abbreviated))
         
-        return ForecastDayItem(dayTitle: dayTitle,
+        return ForecastDayItem(date: date,
                                maxTemp: maxTempForecast.main.tempMax,
                                minTemp: minTempForecast.main.tempMin,
                                humidity: maxTempForecast.main.humidity,

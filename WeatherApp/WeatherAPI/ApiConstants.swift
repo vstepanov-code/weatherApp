@@ -7,6 +7,12 @@
 
 import Foundation
 
+enum AppError: Error {
+    case invalidURL
+    case missingAPIKey
+    case noCacheData
+}
+
 protocol ApiConstantsProtocol {
     var baseUrl: String { get }
     var weatherAPIKey: String? { get }

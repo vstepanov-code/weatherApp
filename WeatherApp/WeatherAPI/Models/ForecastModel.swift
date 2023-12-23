@@ -7,18 +7,18 @@
 
 import Foundation
 
-struct Forecast: Decodable {
+struct Forecast: Codable {
     let list: [ForecastItem]
     let city: City
 }
 
-struct City: Decodable {
+struct City: Codable {
     let id: Int
     let name: String
     let country: String
 }
 
-struct ForecastItem: Decodable {
+struct ForecastItem: Codable {
     let dt: Int
     let main: Overview
     let weather: [WeatherItem]
@@ -30,7 +30,7 @@ struct ForecastItem: Decodable {
     }
 }
 
-struct Overview: Decodable {
+struct Overview: Codable {
     let temp, feelsLike, tempMin, tempMax: Double
     let pressure, seaLevel, grndLevel, humidity: Int
     let tempKf: Double
@@ -48,7 +48,7 @@ struct Overview: Decodable {
     }
 }
 
-struct WeatherItem: Decodable {
+struct WeatherItem: Codable {
     let id: Int
     let main: String?
     let description: String?

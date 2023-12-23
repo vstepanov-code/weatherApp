@@ -8,49 +8,41 @@
 import SwiftUI
 
 struct DetailsView: View {
-    @StateObject var viewModel = DashboardViewModel()
-    
+    @StateObject var viewModel: DetailsViewModel
+
     var body: some View {
         NavigationView {
             ScrollView {
-                VStack {
-                    if let currentTemperatureTitle = viewModel.currentTemperatureTitle,
-                       let currentCityTitle = viewModel.currentCityTitle {
-                        VStack(alignment: .trailing) {
-                            Text(Date.now.formatted(.dateTime.day().month(.abbreviated).weekday(.abbreviated)))
-                                .titleTextStyle()
-                            Text("NOW")
-                                .headerTextStyle3()
-                            Text(currentTemperatureTitle)
-                                .headerTextStyle1()
-                            Text(currentCityTitle.uppercased())
-                                .headerTextStyle2()
-                            Spacer()
-                        }
-                        .frame(maxWidth: .infinity, alignment: .trailing)
-                        .frame(height: 250)
-                        .padding()
-                        .padding(.bottom, 64)
-                    }
-                                        
-                    TabView {
-                        ForEach(viewModel.dailyForecastList, id: \.dayTitle) { dayForecast in
-                            DashboardDailyItemView(viewModel: dayForecast)
-                                .frame(height: 100)
-                                .background(.white)
-                                .cardStyle()
-                                .padding(.horizontal)
-                        }
-                    }
-                    .tabViewStyle(PageTabViewStyle(indexDisplayMode: .always))
-                    .indexViewStyle(PageIndexViewStyle(backgroundDisplayMode: .always))
-                    .frame(height: 200)
-                }
+                contentView
+            }
+            .mainNavigationBarStyle()
+        }
+    }
+
+    private var contentView: some View {
+        VStack(alignment: .leading) {
+            ForEach(Array(viewModel.detailedForecastList.keys.sorted()), id: \.self) { date in
+                forecastSection(for: date)
+            }
+        }
+        .frame(maxWidth: .infinity)
+        .padding(16)
+        .background(Color.white)
+        .cardStyle()
+    }
+
+    private func forecastSection(for date: Date) -> some View {
+        Section(header: Text(date.formatted(.dateTime.day().month().weekday(.abbreviated))).titleTextStyle()) {
+            ForEach(viewModel.detailedForecastList[date] ?? [], id: \.date) { forecastModel in
+                DetailsForecastItemView(viewModel: forecastModel)
+                    .frame(height: 64)
+                    .frame(maxWidth: .infinity)
+                    .background(Color.white)
             }
         }
     }
 }
 
 #Preview {
-    DetailsView()
+    DetailsView(viewModel: DetailsViewModel(forecast: Forecast(list: [], city: City(id: 0, name: "", country: ""))))
 }

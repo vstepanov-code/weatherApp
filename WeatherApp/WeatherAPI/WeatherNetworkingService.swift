@@ -12,11 +12,6 @@ protocol WeatherNetworkingProtocol {
     func getForecast(for city: String) async throws -> Forecast
 }
 
-enum AppError: Error {
-    case invalidURL
-    case missingAPIKey
-}
-
 class WeatherNetworkingService: WeatherNetworkingProtocol {
     
     private let session: URLSession

@@ -10,8 +10,8 @@ import SwiftUI
 struct PrimaryButtonStyle: ViewModifier {
     func body(content: Content) -> some View {
         content
-            .padding()
-            .background(Color.pink)
+            .font(.custom("Helvetica Neue Bold", size: 16))
+            .background(.accent)
             .foregroundColor(.white)
             .cornerRadius(8)
     }
