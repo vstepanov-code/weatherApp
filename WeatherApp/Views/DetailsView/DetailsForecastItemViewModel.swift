@@ -20,11 +20,13 @@ struct DetailsForecastItemViewModel {
     }
     
     var maxTempTitle: String {
-        "Max: \(String(Int(maxTemp)))\(GlobalContants.degreesSymbol)"
+        let formatString = NSLocalizedString("max_temperature", comment: "")
+        return String(format: formatString, Int(maxTemp), GlobalContants.degreesSymbol.rawValue)
     }
     
     var minTempTitle: String {
-        "Min: \(String(Int(minTemp)))\(GlobalContants.degreesSymbol)"
+        let formatString = NSLocalizedString("min_temperature", comment: "")
+        return String(format: formatString, Int(minTemp), GlobalContants.degreesSymbol.rawValue)
     }
     
     var humidityTitle: String {

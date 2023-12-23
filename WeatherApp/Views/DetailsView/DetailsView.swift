@@ -37,6 +37,7 @@ struct DetailsView: View {
         Section(header: Text(date.formatted(.dateTime.day().month().weekday(.abbreviated))).titleTextStyle()) {
             ForEach(viewModel.detailedForecastList[date] ?? [], id: \.date) { forecastModel in
                 DetailsForecastItemView(viewModel: forecastModel)
+                    .padding(4)
                     .frame(height: 64)
                     .frame(maxWidth: .infinity)
                     .background(Color.white)

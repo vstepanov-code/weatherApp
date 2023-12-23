@@ -15,6 +15,7 @@
 		F945A23E2B36DE3A00D27AA6 /* DataStorageProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = F945A23D2B36DE3A00D27AA6 /* DataStorageProtocol.swift */; };
 		F945A2402B36EAB000D27AA6 /* UserDefaultsStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = F945A23F2B36EAB000D27AA6 /* UserDefaultsStorage.swift */; };
 		F945A2422B36EB2F00D27AA6 /* WeatherProviderServiceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F945A2412B36EB2F00D27AA6 /* WeatherProviderServiceTests.swift */; };
+		F945A2442B3736EC00D27AA6 /* Localizable.xcstrings in Resources */ = {isa = PBXBuildFile; fileRef = F945A2432B3736EC00D27AA6 /* Localizable.xcstrings */; };
 		F963DCBC2B35A906001373A1 /* ApiConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = F963DCBB2B35A906001373A1 /* ApiConstants.swift */; };
 		F963DCC32B35B837001373A1 /* Alamofire in Frameworks */ = {isa = PBXBuildFile; productRef = F963DCC22B35B837001373A1 /* Alamofire */; };
 		F963DCC52B35C978001373A1 /* APIKeys.json in Resources */ = {isa = PBXBuildFile; fileRef = F963DCC42B35C978001373A1 /* APIKeys.json */; settings = {ASSET_TAGS = (APIKeys, ); }; };
@@ -69,6 +70,7 @@
 		F945A23D2B36DE3A00D27AA6 /* DataStorageProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataStorageProtocol.swift; sourceTree = "<group>"; };
 		F945A23F2B36EAB000D27AA6 /* UserDefaultsStorage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDefaultsStorage.swift; sourceTree = "<group>"; };
 		F945A2412B36EB2F00D27AA6 /* WeatherProviderServiceTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeatherProviderServiceTests.swift; sourceTree = "<group>"; };
+		F945A2432B3736EC00D27AA6 /* Localizable.xcstrings */ = {isa = PBXFileReference; lastKnownFileType = text.json.xcstrings; path = Localizable.xcstrings; sourceTree = "<group>"; };
 		F963DCBB2B35A906001373A1 /* ApiConstants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ApiConstants.swift; sourceTree = "<group>"; };
 		F963DCC42B35C978001373A1 /* APIKeys.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = APIKeys.json; sourceTree = "<group>"; };
 		F963DCC72B35CF1B001373A1 /* DashboardViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DashboardViewModel.swift; sourceTree = "<group>"; };
@@ -127,6 +129,7 @@
 		F945A23C2B36DE2F00D27AA6 /* DataStorage */ = {
 			isa = PBXGroup;
 			children = (
+				F963DCCB2B3610C5001373A1 /* GlobalContants.swift */,
 				F945A23D2B36DE3A00D27AA6 /* DataStorageProtocol.swift */,
 				F945A23F2B36EAB000D27AA6 /* UserDefaultsStorage.swift */,
 			);
@@ -188,13 +191,13 @@
 			isa = PBXGroup;
 			children = (
 				F945A23C2B36DE2F00D27AA6 /* DataStorage */,
-				F9DB50782B34B69700863092 /* WeatherAPI */,
+				F9DB50782B34B69700863092 /* Networking */,
 				F963DCC62B35CED2001373A1 /* Views */,
 				F9DB50692B34A16C00863092 /* ViewModifiers */,
 				F9DB503F2B34A0C300863092 /* WeatherApp.swift */,
 				F9DB50432B34A0C500863092 /* Assets.xcassets */,
 				F9DB50452B34A0C500863092 /* Preview Content */,
-				F963DCCB2B3610C5001373A1 /* GlobalContants.swift */,
+				F945A2432B3736EC00D27AA6 /* Localizable.xcstrings */,
 			);
 			path = WeatherApp;
 			sourceTree = "<group>";
@@ -248,7 +251,7 @@
 			path = Models;
 			sourceTree = "<group>";
 		};
-		F9DB50782B34B69700863092 /* WeatherAPI */ = {
+		F9DB50782B34B69700863092 /* Networking */ = {
 			isa = PBXGroup;
 			children = (
 				F9DB50732B34A9E600863092 /* Models */,
@@ -258,7 +261,7 @@
 				F963DCC42B35C978001373A1 /* APIKeys.json */,
 				F945A23A2B36DB9E00D27AA6 /* NetworkStatusChecker.swift */,
 			);
-			path = WeatherAPI;
+			path = Networking;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -376,6 +379,7 @@
 			files = (
 				F9DB50472B34A0C500863092 /* Preview Assets.xcassets in Resources */,
 				F9DB50442B34A0C500863092 /* Assets.xcassets in Resources */,
+				F945A2442B3736EC00D27AA6 /* Localizable.xcstrings in Resources */,
 				F963DCC52B35C978001373A1 /* APIKeys.json in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

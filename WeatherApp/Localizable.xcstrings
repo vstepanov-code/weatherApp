@@ -1,0 +1,51 @@
+{
+  "sourceLanguage" : "en",
+  "strings" : {
+    "detailed_forecast" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Detailed Forecast"
+          }
+        }
+      }
+    },
+    "details" : {
+      "extractionState" : "manual"
+    },
+    "error" : {
+      "extractionState" : "manual"
+    },
+    "max_temperature" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Max: %d %@"
+          }
+        }
+      }
+    },
+    "min_temperature" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Min: %d %@"
+          }
+        }
+      }
+    },
+    "now" : {
+      "extractionState" : "manual"
+    },
+    "OK" : {
+
+    }
+  },
+  "version" : "1.0"
+}

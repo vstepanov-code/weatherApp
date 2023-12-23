@@ -28,7 +28,7 @@ struct DashboardView: View {
                 }
             }
         }
-        .alert("Error", isPresented: Binding<Bool>(get: {
+        .alert("error", isPresented: Binding<Bool>(get: {
             viewModel.error != nil
         }, set: { _ in
             viewModel.error = nil
@@ -53,7 +53,7 @@ struct DashboardView: View {
             VStack(alignment: .trailing) {
                 Text(Date.now.formatted(.dateTime.day().month(.abbreviated).weekday(.abbreviated)))
                     .titleTextStyle()
-                Text("NOW")
+                Text("now").textCase(.uppercase)
                     .headerTextStyle3()
                 Text(currentTemperatureTitle)
                     .headerTextStyle1()
@@ -73,8 +73,8 @@ struct DashboardView: View {
             HStack {
                 Spacer()
                 NavigationLink(destination: DetailsView(viewModel: DetailsViewModel(forecast: forecast))
-                    .navigationBarTitle("Detailed Forecast", displayMode: .large)) {
-                        Text("DETAILS")
+                    .navigationBarTitle("detailed_forecast", displayMode: .large)) {
+                        Text("details").textCase(.uppercase)
                             .padding(.horizontal)
                             .frame(height: 36)
                             .primaryButtonStyle()

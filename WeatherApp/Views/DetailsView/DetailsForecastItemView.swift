@@ -13,22 +13,19 @@ struct DetailsForecastItemView: View {
     
     var body: some View {
         HStack {
-            timeView
+            timeTitle
+            iconImage
             Spacer()
             infoView
         }
         .background(.clear)
     }
     
-    private var timeView: some View {
-        HStack {
-            Text(viewModel.timeTitle)
-                .plainTextStyle()
-                .frame(width: 80)
-                .padding(.trailing, 8)
-            
-            iconImage
-        }
+    private var timeTitle: some View {
+        Text(viewModel.timeTitle)
+            .frame(width: 40, alignment: .leading)
+            .plainTextStyle()
+            .padding(.trailing, 12)
     }
     
     private var iconImage: some View {
