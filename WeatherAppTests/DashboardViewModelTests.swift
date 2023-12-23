@@ -11,9 +11,12 @@ import XCTest
 class DashboardViewModelTests: XCTestCase {
 
     func testLoadForecastSuccess() async {
-        let mockWeatherService = MockWeatherService()
-        mockWeatherService.mockForecast = try? getData(fromJSON: "mock_forecast")
-        let viewModel = DashboardViewModel(weatherService: mockWeatherService)
+        
+        let mockNetworkingService = MockWeatherService()
+        mockNetworkingService.mockForecast = try? getData(fromJSON: "mock_forecast")
+        let provider = WeatherProviderService.getTestProvider(weatherNetworkingService: mockNetworkingService)
+        
+        let viewModel = DashboardViewModel(weatherProvider: provider)
 
         await viewModel.refreshData()
 
@@ -24,11 +27,12 @@ class DashboardViewModelTests: XCTestCase {
     }
 
     func testLoadForecastWithEmptyData() async {
-        let mockWeatherService = MockWeatherService()
-        let viewModel = DashboardViewModel(weatherService: mockWeatherService)
+        let mockNetworkingService = MockWeatherService()
+        mockNetworkingService.mockForecast = Forecast(list: [], city: City(id: 1, name: "Paris", country: ""))
 
-        // Configure mockWeatherService to return an empty forecast
-        mockWeatherService.mockForecast = Forecast(list: [], city: City(id: 1, name: "Paris", country: ""))
+        let provider = WeatherProviderService.getTestProvider(weatherNetworkingService: mockNetworkingService)
+
+        let viewModel = DashboardViewModel(weatherProvider: provider)
 
         await viewModel.refreshData()
 
@@ -39,10 +43,11 @@ class DashboardViewModelTests: XCTestCase {
     }
 
     func testLoadForecastFailure() async {
-        let mockWeatherService = MockWeatherService()
-        let viewModel = DashboardViewModel(weatherService: mockWeatherService)
+        let mockNetworkingService = MockWeatherService()
+        mockNetworkingService.error = NSError(domain: "", code: 0, userInfo: nil)
 
-        mockWeatherService.error = NSError(domain: "", code: 0, userInfo: nil)
+        let provider = WeatherProviderService.getTestProvider(weatherNetworkingService: mockNetworkingService)
+        let viewModel = DashboardViewModel(weatherProvider: provider)
 
         await viewModel.refreshData()
     }
