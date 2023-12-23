@@ -17,7 +17,8 @@ class DashboardViewModel: ObservableObject {
     
     var forecast: Forecast?
     private let weatherProvider: WeatherProviderProtocol
-    
+    private var refreshDataTask: Task<Void, Never>?
+
     init(weatherProvider: WeatherProviderProtocol = WeatherProviderService()) {
         self.weatherProvider = weatherProvider
     }
@@ -25,13 +26,16 @@ class DashboardViewModel: ObservableObject {
     @MainActor
     func refreshData() async {
         isLoading = true
+        refreshDataTask?.cancel()
         
-        defer { isLoading = false }
-        do {
-            let forecast = try await weatherProvider.getForecast(for: "Paris")
-            processForecastData(forecast)
-        } catch {
-            // TODO: Add error handling and communicate with the UI
+        refreshDataTask = Task {
+            defer { isLoading = false }
+            do {
+                let forecast = try await weatherProvider.getForecast(for: "Paris")
+                processForecastData(forecast)
+            } catch {
+                // TODO: Add error handling and communicate with the UI
+            }
         }
     }
     
