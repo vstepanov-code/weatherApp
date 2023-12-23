@@ -41,7 +41,9 @@ struct DashboardView: View {
             if viewModel.isLoading {
                 ProgressView()
             }
-        }.mainNavigationBarStyle()
+        }
+        .mainNavigationBarStyle()
+        .navigationViewStyle(StackNavigationViewStyle())
     }
     
     @ViewBuilder
@@ -83,17 +85,33 @@ struct DashboardView: View {
     
     @ViewBuilder
     private var dailyForecastTabView: some View {
-        TabView {
-            ForEach(viewModel.dailyForecastList, id: \.dayTitle) { dayForecast in
-                DashboardDailyItemView(viewModel: dayForecast)
-                    .frame(height: 100)
-                    .background(Color.white)
-                    .cardStyle()
+        GeometryReader { geometry in
+            if UIDevice.current.userInterfaceIdiom == .pad {
+                ScrollView(.horizontal, showsIndicators: false) {
+                    HStack(spacing: 8) {
+                        ForEach(viewModel.dailyForecastList, id: \.dayTitle) { dayForecast in
+                            DashboardDailyItemView(viewModel: dayForecast)
+                                .frame(width: geometry.size.width / 3, height: 100)
+                                .background(Color.white)
+                                .cardStyle()
+                        }
+                    }
                     .padding(.horizontal)
+                }
+            } else {
+                TabView {
+                    ForEach(viewModel.dailyForecastList, id: \.dayTitle) { dayForecast in
+                        DashboardDailyItemView(viewModel: dayForecast)
+                            .frame(height: 100)
+                            .background(Color.white)
+                            .cardStyle()
+                            .padding(.horizontal)
+                    }
+                }
+                .tabViewStyle(PageTabViewStyle(indexDisplayMode: .always))
+                .indexViewStyle(PageIndexViewStyle(backgroundDisplayMode: .always))
             }
         }
-        .tabViewStyle(PageTabViewStyle(indexDisplayMode: .always))
-        .indexViewStyle(PageIndexViewStyle(backgroundDisplayMode: .always))
         .frame(height: 200)
     }
 }

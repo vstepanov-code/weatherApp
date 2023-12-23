@@ -9,16 +9,18 @@ import SwiftUI
 
 struct DetailsView: View {
     @StateObject var viewModel: DetailsViewModel
-
+    
     var body: some View {
         NavigationView {
             ScrollView {
                 contentView
+                    .padding()
             }
-            .mainNavigationBarStyle()
         }
+        .mainNavigationBarStyle()
+        .navigationViewStyle(StackNavigationViewStyle())
     }
-
+    
     private var contentView: some View {
         VStack(alignment: .leading) {
             ForEach(Array(viewModel.detailedForecastList.keys.sorted()), id: \.self) { date in
@@ -30,7 +32,7 @@ struct DetailsView: View {
         .background(Color.white)
         .cardStyle()
     }
-
+    
     private func forecastSection(for date: Date) -> some View {
         Section(header: Text(date.formatted(.dateTime.day().month().weekday(.abbreviated))).titleTextStyle()) {
             ForEach(viewModel.detailedForecastList[date] ?? [], id: \.date) { forecastModel in
