@@ -14,7 +14,8 @@ class DashboardViewModel: ObservableObject {
     @Published var currentTemperatureTitle: String?
     @Published var currentCityTitle: String?
     @Published var dailyForecastList: [ForecastDayItem] = []
-    
+    @Published var error: Error?
+
     var forecast: Forecast?
     private let weatherProvider: WeatherProviderProtocol
     private var refreshDataTask: Task<Void, Never>?
@@ -34,9 +35,11 @@ class DashboardViewModel: ObservableObject {
                 let forecast = try await weatherProvider.getForecast(for: "Paris")
                 processForecastData(forecast)
             } catch {
-                // TODO: Add error handling and communicate with the UI
+                self.error = error
             }
         }
+        
+        await refreshDataTask?.value
     }
     
     private func processForecastData(_ forecast: Forecast) {

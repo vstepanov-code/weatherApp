@@ -50,5 +50,7 @@ class DashboardViewModelTests: XCTestCase {
         let viewModel = DashboardViewModel(weatherProvider: provider)
 
         await viewModel.refreshData()
+        
+        XCTAssertNotNil(viewModel.error)
     }
 }

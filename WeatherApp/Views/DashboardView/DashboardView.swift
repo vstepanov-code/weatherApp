@@ -28,6 +28,15 @@ struct DashboardView: View {
                 }
             }
         }
+        .alert("Error", isPresented: Binding<Bool>(get: {
+            viewModel.error != nil
+        }, set: { _ in
+            viewModel.error = nil
+        }), presenting: viewModel.error) { error in
+            Button("OK", role: .cancel) { }
+        } message: { error in
+            Text(error.localizedDescription)
+        }
         .overlay {
             if viewModel.isLoading {
                 ProgressView()

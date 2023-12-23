@@ -27,6 +27,7 @@ class WeatherProviderService: WeatherProviderProtocol {
     }
     
     func getForecast(for city: String) async throws -> Forecast {
+        
         if networkStatusChecker.isOffline() {
             if let cachedData = storage.loadData(forKey: .forecast),
                let cachedForecast = try? JSONDecoder().decode(Forecast.self, from: cachedData) {
